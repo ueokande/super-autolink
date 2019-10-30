@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/ueokande/super-autolink#readme",
   "devDependencies": {
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.6.4",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.9"
   }
