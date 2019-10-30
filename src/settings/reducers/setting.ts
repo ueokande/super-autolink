@@ -1,9 +1,5 @@
 import * as actions from '../actions';
-
-type Entry = {
-  prefix: string;
-  placeholder: string;
-}
+import { Entry } from '../Entry';
 
 export type State = {
   entries: Entry[],
@@ -36,6 +32,10 @@ export default function reducer(
     return {
       entries: state.entries.concat([]),
     };
+  case actions.SETTING_LOAD:
+    return {
+      entries: action.entries,
+    }
   default:
     return state;
   }

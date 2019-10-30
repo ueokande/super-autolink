@@ -1,3 +1,4 @@
+import './index.scss';
 import React from 'react';
 import { connect } from 'react-redux';
 import * as settingActions from '../../settings/actions/setting';
@@ -27,8 +28,23 @@ class SettingsComponent extends React.Component<Props> {
       <tbody>
         {
           this.props.entries.map((e, index) => <tr key={index}>
-            <td><input data-index={index} onChange={this.bindPrefixValue.bind(this)} name='prefix' placeholder='TICKET-' value={ e.prefix } /></td>
-            <td><input data-index={index} onChange={this.bindPlaceholderValue.bind(this)} name='placeholder' placeholder='https://example.com/TICKET?query={}' value={ e.placeholder } /></td>
+            <td><input
+              className='prefix' data-index={index} 
+              name='prefix'
+              placeholder='TICKET-'
+              value={ e.prefix }
+              onChange={this.bindPrefixValue.bind(this)}
+              onBlur={this.save.bind(this)}
+            /></td>
+            <td><input
+              className='placeholder'
+              data-index={index}
+              name='placeholder'
+              placeholder='https://example.com/TICKET?query={}'
+              value={ e.placeholder }
+              onChange={this.bindPlaceholderValue.bind(this)}
+              onBlur={this.save.bind(this)}
+            /></td>
             <td><DeleteButton onClick={this.deleteEntry.bind(this)} /></td>
           </tr>)
         }
@@ -58,6 +74,11 @@ class SettingsComponent extends React.Component<Props> {
     let target = e.currentTarget;
     let index = Number(target.getAttribute('data-index'));
     this.props.dispatch(settingActions.remove(index));
+    this.save();
+  }
+
+  save() {
+    this.props.dispatch(settingActions.save(this.props.entries));
   }
 }
 const mapStateToProps = (state: AppState) => ({ ...state });

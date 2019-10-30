@@ -1,8 +1,12 @@
+import { Entry } from '../Entry';
+
 // Settings
-export const SETTING_ADD = 'setting.add'
+export const SETTING_ADD = 'setting.add';
 export const SETTING_REMOVE = 'setting.remove';
-export const SETTING_UPDATE_PREFIX = 'setting.update.prefix'
-export const SETTING_UPDATE_PLACEHOLDER = 'setting.update.placeholder'
+export const SETTING_UPDATE_PREFIX = 'setting.update.prefix';
+export const SETTING_UPDATE_PLACEHOLDER = 'setting.update.placeholder';
+export const SETTING_LOAD = 'setting.load';
+export const SETTING_SAVE = 'setting.save';
 
 interface SettingAddAction {
   type: typeof SETTING_ADD;
@@ -25,7 +29,15 @@ interface SettingUpdatePlaceholderAction {
   placeholder: string;
 }
 
+interface SettingLoadAction {
+  type: typeof SETTING_LOAD;
+  entries: Entry[];
+}
+
+interface SettingSaveAction {
+  type: typeof SETTING_SAVE;
+}
 
 export type SettingAction =
-  SettingAddAction | SettingRemoveAction | SettingUpdatePrefixAction | SettingUpdatePlaceholderAction;
-
+  SettingAddAction | SettingRemoveAction | SettingUpdatePrefixAction | SettingUpdatePlaceholderAction |
+  SettingLoadAction | SettingSaveAction;
