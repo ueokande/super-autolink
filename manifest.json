@@ -1,0 +1,42 @@
+{
+  "manifest_version": 2,
+  "name": "Super Autolink",
+  "description": "Super Autolink",
+  "version": "0.0.1",
+  "icons": {
+    "32": "resources/icon_32x32.png",
+    "64": "resources/icon_64x64.png",
+    "128": "resources/icon_128x128.png"
+  },
+  "applications": {
+    "gecko": {
+      "id": "super-autolink@i-beam.org"
+    }
+  },
+  "content_scripts": [
+    {
+      "all_frames": true,
+      "matches": [ "<all_urls>" ],
+      "js": [ "build/content.js" ],
+      "run_at": "document_end",
+      "match_about_blank": true
+    }
+  ],
+  "background": {
+    "scripts": [
+      "build/background.js"
+    ]
+  },
+  "permissions": [
+    "storage"
+  ],
+  "options_ui": {
+    "page": "build/settings.html"
+  },
+  "browser_action": {
+    "default_icon": {
+      "32": "resources/icon_32x32.png"
+    },
+    "default_title": "Super Autolink"
+  }
+}
