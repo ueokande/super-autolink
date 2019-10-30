@@ -4,7 +4,8 @@
   "description": "Add Autolinked Reference",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "webpack --mode development -w --debug --devtool inline-source-map",
+    "build": "NODE_ENV=production webpack --mode production --progress --display-error-details --devtool inline-source-map"
   },
   "repository": {
     "type": "git",
