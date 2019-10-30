@@ -1,3 +1,4 @@
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
 const src = path.resolve(__dirname, 'src');
@@ -45,6 +46,14 @@ config = {
     extensions: [ '.js', '.jsx', '.ts', '.tsx' ],
     modules: [path.join(__dirname, 'src'), 'node_modules']
   },
+
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: path.join(src, 'settings', 'index.html'),
+      filename: path.join(dist, 'settings.html'),
+      inject: false
+    })
+  ]
 };
 
 module.exports = config
