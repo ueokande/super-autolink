@@ -2,30 +2,52 @@ import SettingRepository from './SettingRepository';
 import LinkDef from './LinkDef';
 
 const mutateTextNode = (node: Text, defs: LinkDef[]) => {
+  let targets: Array<string | { name: string, href: string }> = [node.wholeText];
+
   for (let def of defs) {
     let regexp = new RegExp('\\b' + def.prefix + '(\\d+)\\b', 'g');
-    let content = node.wholeText;
-    let matches;
 
-    let replaced = [];
-    while ((matches = regexp.exec(content)) !== null) {
-      matches = matches;
-      let index = matches.index
-      let before = content.slice(0, index);
-      let no = matches[1];
-      let a = document.createElement('a');
-      a.href = def.link(no);
-      a.textContent = def.label(no);
-      replaced.push(document.createTextNode(before), a);
-    }
+    for (let i = 0; i < targets.length; ++i) {
+      let target = targets[i];
+      if (typeof target !== 'string') {
+        continue;
+      }
 
-    if (replaced.length > 0) {
-      let next = node.nextSibling;
-      let parent = node.parentNode!!;
-      replaced.forEach(n => parent.insertBefore(n, next))
-      node.remove();
+      let matches;
+      let last = 0;
+      while ((matches = regexp.exec(target)) !== null) {
+        let no = matches[1];
+        let name = def.label(no);
+        let href = def.link(no);
+        let before = target.slice(last).slice(0, matches.index - last);
+        last = matches.index + matches[0].length;
+
+        targets[i] = before;
+        targets.splice(i + 1, 0, { name, href });
+        i += 2;
+        console.log(targets);
+      }
+      if (last > 0) {
+        targets.push(target.slice(last));
+        console.log(targets);
+      }
     }
   }
+
+  let elements = targets.map((target) => {
+    if (typeof target === 'string') {
+      return document.createTextNode(target);
+    } else {
+      let a = document.createElement('a');
+      a.textContent = target.name;
+      a.href = target.href;
+      return a;
+    }
+  });
+  let parent = node.parentNode!!;
+  let next = node.nextSibling;
+  elements.forEach(n => parent.insertBefore(n, next))
+  node.remove();
 }
 
 const init = async() => {
